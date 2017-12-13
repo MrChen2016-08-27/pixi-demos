@@ -20,10 +20,18 @@ module.exports = {
     rules: [
       {
         test: /\.(png|svg|jpg|gif)$/,
+        exclude: /node_modules/,
         use: [
          'file-loader'
         ]
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+         'babel-loader'
+        ]
+      },
     ],
   },
 };
