@@ -1,6 +1,8 @@
-import 'pixi.js/dist/pixi.js';
+import 'pixi.js/dist/pixi';
+import './css/layout.css';
+import rendererTest from './renderer/rendererTest';
 
-// 应用程序将使用 webGL 创建一个渲染器, 如果不可以，则使用画布
+// 创建一个 Application， Application 将使用 webGL 创建一个渲染器, 如果不可以，则使用画布
 const app = new PIXI.Application({
   width: 256,
   height: 256,
@@ -10,15 +12,26 @@ const app = new PIXI.Application({
 });
 
 document.body.appendChild(app.view);
-// renderer 看做一个渲染器包含了所有渲染属性，如背景色，高，宽等
-console.log(`渲染器背景色:${app.renderer.backgroundColor}`);
-console.log(`渲染器宽度:${app.renderer.view.width}`);
 
-// 为了确保画布被调整大小以匹配分辨率，请将autoResize设置为true
-app.renderer.autoResize = true;
+// 对渲染器部分属性测试
+rendererTest.testAttr(app.renderer);
 
-// 改变大小
-app.renderer.resize(512, 512);
+// 使用加载器来加载任何形式的图像，使其可以转换为纹理(webgl需要的格式)
+PIXI.loader.add('water', 'src/img/water.png').load(setup);
 
-console.log(`渲染器宽度:${app.renderer.view.width}`);
+function setup(loader, resources) {
+  const { texture } = resources.water;
+  const water = new PIXI.Sprite(texture);
+
+  // 设置位置
+  water.x = app.renderer.width / 2;
+  water.y = app.renderer.height / 2;
+  // 设置中心
+  water.anchor.x = 0.5;
+  water.anchor.y = 0.5;
+
+  //添加到舞台
+  app.stage.addChild(water);
+};
+
 
