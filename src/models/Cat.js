@@ -7,7 +7,6 @@ class Cat{
     this.hp = 100;
     // 魔法值
     this.mp = 100;
-    this.path = 'src/img/cat.png';
   }
 }
 

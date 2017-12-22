@@ -4,12 +4,8 @@
 
 const imgList = [
   {
-    name: 'water',
-    path: 'src/img/water.png'
-  },
-  {
-    name: 'cat',
-    path: 'src/img/cat.png'
+    name: 'round1',
+    path: 'src/img/fileData.json'
   },
 ];
 

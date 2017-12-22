@@ -1,6 +1,7 @@
 class Round{
-  constructor(loader) {
-    this.progressListener(loader);
+  constructor(name) {
+    this.loader = $global.methods.addResource(name);
+    this.progressListener(this.loader);
   }
   progressListener(loader) {
     loader.on('progress', (loader, res) => {
