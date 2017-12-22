@@ -1,4 +1,5 @@
 import 'pixi.js/dist/pixi';
+import '@/global';
 import './css/layout.css';
 import Round1 from './round/Round1.js';
 import rendererTest from './renderer/rendererTest';
