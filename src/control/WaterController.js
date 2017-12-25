@@ -1,10 +1,11 @@
+import Controller from './Controller';
 import Water from '@/models/Water';
 
 const className = 'water';
 
-class WaterController{
+class WaterController extends Controller{
   constructor() {
-    this.model = new Water();
+    super();
   }
 
 }
