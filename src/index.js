@@ -13,12 +13,13 @@ const app = new PIXI.Application({
   resolution: 1,
 });
 
+window.game = app;
 document.body.appendChild(app.view);
 
 // 对渲染器部分属性测试
 rendererTest.testAttr(app.renderer);
 
 // 第一关
-const r = new Round1(app);
+const r = new Round1();
 
 
