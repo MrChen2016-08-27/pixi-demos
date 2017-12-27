@@ -48,8 +48,11 @@ class Round1 extends Round{
     const y = game.renderer.height - sprite.height;
     sprite.position.set(x, y);
     sprite.pivot.set(0.5, 0.5);
+    sprite.vx = 2;
+    sprite.vy = 2;
     this.cat = sprite;
     game.stage.addChild(this.cat);
+    $global.methods.actionDirection(this.cat);
   }
 
 };

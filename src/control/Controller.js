@@ -18,10 +18,9 @@ class Controller{
    * [rangeMove 在指定范围内移动]
    * @param  {Sprite对象} sprite   [用于改变对象的移动属性]
    * @param  {Object} range    [限制移动范围，startX 开始移动x坐标, startY 开始移动Y坐标, endX 结束移动x坐标, endY 结束移动y坐标]
-   * @param  {Object} distance [移动距离, { x,y }, 应该放在 app.ticker.add 外层]
    * @return {Object}          [返回被移动后的Sprite对象]
    */
-  rangeMove(sprite, range, distance) {
+  rangeMove(sprite, range) {
     let distanceX = sprite.vx || 1;
     let distanceY = sprite.vy || 1;
     const xStartValidate = sprite.x < range.startX && distanceX < 0;
