@@ -3,20 +3,6 @@ import keyBoard from './keyBoard';
 
 const methods = {
   keyBoard,
-  getSprite(resources, name) {
-    const { texture } = resources[name];
-    const sprite = new PIXI.Sprite(texture);
-    return sprite;
-  },
-  loadSprite(loader, className) {
-    const newSprite = (resolve) => {
-      loader.load((loader, resources) => {
-        const oSprite = this.getSprite(resources, className);
-        resolve(oSprite);
-      });
-    };
-    return new Promise(newSprite);
-  },
   addResource(...names) {
     const loader = new PIXI.loaders.Loader();
     names.forEach((name) => {
@@ -33,7 +19,7 @@ const methods = {
   /**
    * [actionDirection 对一个 sprite 添加方向操作]
    * @param  {Object} sprite [一个 Sprite 对象， 必须]
-   * @param  {Object} range [移动的范围限制， 可选]
+   * @param  {Object} range [移动的范围限制， 可选, 默认限制范围可渲染区域]
    * @return {[]}        [无]
    */
   actionDirection(sprite, range = {}) {
@@ -41,24 +27,7 @@ const methods = {
       up = keyBoard(38),
       right = keyBoard(39),
       down = keyBoard(40);
-    // left.keydown = () => {
-    //   sprite.vx = -Math.abs(sprite.vx);
-    // };
-    // left.keyup = right.keyup = () => {
-    //   sprite.vx = 0;
-    // };
-    // up.keydown = () => {
-    //   sprite.vy = -Math.abs(sprite.vy);
-    // };
-    // up.keyup = () => {
-    //   sprite.vy = 0;
-    // };
-    // right.keydown = () => {
-    //   sprite.vx = Math.abs(sprite.vx);
-    // };
-    // down.keydown = () => {
-    //   sprite.vy = Math.abs(sprite.vy);
-    // };
+
     game.ticker.add(() => {
       const maxX = range.endX || game.renderer.width - sprite.width;
       const minX = range.startX || 0;
@@ -96,6 +65,15 @@ const methods = {
         sprite.y += sprite.vy;
       }
     });
+  },
+  // 碰撞检测
+  hitTestRectangle(sprite1, sprite2) {
+    const validateX = sprite2.x + sprite2.width > sprite1.x && sprite2.x < sprite1.x + sprite1.width;
+    const validateY = sprite2.y + sprite2.height > sprite1.y && sprite2.y < sprite1.y + sprite1.height;
+    if (validateX && validateY) {
+      return true;
+    }
+    return false;
   },
 };
 

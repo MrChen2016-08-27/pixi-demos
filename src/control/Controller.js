@@ -1,19 +1,4 @@
 class Controller{
-  constructor() {
-    this.loader = new PIXI.loaders.Loader();
-  }
-  loadSprite(config, className) {
-    const newSprite = (resolve) => {
-      this.loader.load((loader, resources) => {
-        const oSprite = $global.methods.getSprite(resources, className);
-        for (const attr in config) {
-          oSprite[attr] = config[attr];
-        }
-        resolve(oSprite);
-      });
-    };
-    return new Promise(newSprite);
-  }
   /**
    * [rangeMove 在指定范围内移动]
    * @param  {Sprite对象} sprite   [用于改变对象的移动属性]
