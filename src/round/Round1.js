@@ -1,14 +1,13 @@
-import CatControl from '@/control/CatController';
-import WaterControl from '@/control/WaterController';
+import UserRoleControl from '@/control/UserRole';
 import Cat from '@/models/Cat';
 import Water from '@/models/Water';
 import Round from '@/round/Round';
-
 
 class Round1 extends Round{
   constructor() {
     super('round1');
     this.map = new PIXI.Container();
+    this.userRoleControl = new UserRoleControl();
     // 关卡总共水资源集合
     this.waters = [];
     this.cat = null;
@@ -25,6 +24,7 @@ class Round1 extends Round{
         this.initWater(textures);
       }
       this.initCat(textures);
+      this.loadHp(this.cat, this.map);
       game.stage.addChild(this.map);
       this.runGameLoop();
     })
@@ -33,6 +33,7 @@ class Round1 extends Round{
     const self = this;
     this.gameLoopList = {
       waterRangeMove: self.waterRangeMove.bind(this),
+      isGetWater: () => { self.isGetWater(self.cat) },
     };
   }
   initWater(texture) {
@@ -50,7 +51,6 @@ class Round1 extends Round{
   }
   // 水瓶随机移动
   waterRangeMove() {
-    const waterControl = new WaterControl();
     this.waters.forEach((water) => {
       const { sprite } = water;
       const range = {
@@ -59,7 +59,7 @@ class Round1 extends Round{
         endX: game.renderer.width - sprite.width,
         endY: game.renderer.height - sprite.height,
       };
-      waterControl.rangeMove(sprite, range);
+      this.rangeMove(sprite, range);
     });
   }
   // 动态运行事件循环
@@ -72,6 +72,7 @@ class Round1 extends Round{
   }
   initCat(texture) {
     this.cat = new Cat(texture);
+    this.cat.hp = 10;
     const { sprite } = this.cat;
     const x = sprite.width;
     const y = game.renderer.height - sprite.height;
@@ -82,15 +83,20 @@ class Round1 extends Round{
     this.map.addChild(sprite);
     // 添加键盘方向控制
     $global.methods.actionDirection(sprite);
-    // 碰撞到则移除水瓶
-    game.ticker.add(delta => {
-      this.waters.forEach((water, index) => {
-        const isImpact = $global.methods.hitTestRectangle(sprite, water.sprite);
-        if (isImpact) {
-          this.map.removeChild(water.sprite);
-          this.waters.splice(index, 1);
-        }
-      });
+    // 获得水瓶
+
+  }
+  isGetWater(model) {
+    if (!model) {
+      return;
+    }
+    const { sprite } = model;
+    this.waters.forEach((water, index) => {
+      const isImpact = $global.methods.hitTestRectangle(sprite, water.sprite);
+      if (isImpact) {
+        this.userRoleControl.getConsumables(model, water);
+        this.waters.splice(index, 1);
+      }
     });
   }
 

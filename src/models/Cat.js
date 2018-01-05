@@ -7,8 +7,8 @@ class Cat{
     this.hp = 100;
     // 魔法值
     this.mp = 100;
+    this.maxHp = 100;
     // sprite
-    console.log(texture);
     this.sprite = new PIXI.Sprite(texture['cat.png']);
   }
 }

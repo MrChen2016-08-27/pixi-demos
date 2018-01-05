@@ -1,10 +1,10 @@
-class Water{
+import Consumables from './Consumables';
+class Water extends Consumables{
   constructor(texture) {
-    // 回复HP容量
-    this.hp = 100;
-    // 所需金钱
-    this.gold = 50;
-    // sprite
+    super();
+    this.type = 'GainGoods';
+    this.attrs = ['hp'];
+    this.value = [40];
     this.sprite = new PIXI.Sprite(texture['water.png']);
   }
 }
